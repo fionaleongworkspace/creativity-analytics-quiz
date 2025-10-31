@@ -22,13 +22,12 @@ st.markdown("""
 /* Hero title tracking */
 h1 { letter-spacing: .2px; }
 
-/* Soft divider */
+/* Soft divider (now gradient) */
 .hr {
   height: 8px; border: 0; border-radius: 999px;
   background: linear-gradient(90deg, #007BFF 0%, #8A2BE2 100%);
   margin: 12px 0 24px;
 }
-
 
 /* Radio group as soft card */
 div.row-widget.stRadio > div {
@@ -42,22 +41,16 @@ label[data-baseweb="radio"] > div:nth-child(2) { line-height: 1.35; }
 /* Buttons: rounded + semi-bold */
 div.stButton > button { border-radius: 12px; font-weight: 600; padding: .6rem 1rem; }
 
-/* Progress bar thinner & rounded (selector works on current Streamlit) */
 /* Progress bar: thin, rounded, gradient fill */
 [data-baseweb="progress-bar"] div[role="progressbar"] {
   height: 6px;
   border-radius: 999px;
   background: linear-gradient(90deg, #007BFF 0%, #8A2BE2 100%) !important;
 }
-[data-baseweb="progress-bar"] > div:first-child {
-  background-color: #f2efff !important;
-}
-
+/* Empty track softer */
+[data-baseweb="progress-bar"] > div:first-child { background-color: #f2efff !important; }
 </style>
 """, unsafe_allow_html=True)
-
-# Optional banner/logo if you add a file (e.g., banner.jpg) to repo root:
-# st.image("banner.jpg", use_column_width=True)
 
 # ---------- Content ----------
 TITLE = "Creativity ↔ Analytics Quiz"
@@ -125,7 +118,7 @@ def share_text(name, label, a, b):
     Try it and comment your result.
     """).strip()
 
-# ---------- Hero header (inserted BEFORE state/UI) ----------
+# ---------- Hero header (single instance) ----------
 st.markdown("""
 <h1 style="
   font-weight: 800;
@@ -137,10 +130,10 @@ st.markdown("""
   Creativity ↔ Analytics Quiz
 </h1>
 """, unsafe_allow_html=True)
-
 st.write(INTRO)
 st.markdown('<div class="hr"></div>', unsafe_allow_html=True)
 
+# ---------- Name input ----------
 with st.expander("Optional: add your name for the result card", expanded=False):
     default_name = st.session_state.get("name", "")
     st.session_state["name"] = st.text_input("Name (for the result card)", value=default_name)
@@ -153,32 +146,12 @@ if "answers" not in st.session_state:
 if "done" not in st.session_state:
     st.session_state.done = False
 
+# ---------- Progress (single instance, placed under hero) ----------
+st.progress(int((st.session_state.get("i", 0) / len(QUESTIONS)) * 100))
+
 # ---------- UI flow ----------
 total = len(QUESTIONS)
 i = st.session_state.i
-
-# Progress bar
-# ---------- Hero header ----------
-st.markdown("""
-<h1 style="
-  font-weight: 800;
-  background: linear-gradient(90deg, #007BFF 0%, #8A2BE2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-align: center;
-  margin-bottom: 0.5em;">
-  Creativity ↔ Analytics Quiz
-</h1>
-""", unsafe_allow_html=True)
-st.write(INTRO)
-st.markdown('<div class="hr"></div>', unsafe_allow_html=True)
-
-# ⬇️ Add this line here
-st.progress(int((st.session_state.get("i", 0) / len(QUESTIONS)) * 100))
-
-with st.expander("Optional: add your name for the result card", expanded=False):
-
-st.progress(int((i if not st.session_state.done else total) / total * 100))
 
 if not st.session_state.done:
     # ----- Question card -----
@@ -214,8 +187,7 @@ if not st.session_state.done:
             st.button("See my result", on_click=lambda: st.session_state.update(done=True))
 else:
     # ----- Results page -----
-    # default any blanks to "A" to avoid None issues (or change to strict if you prefer)
-    label, a, b = score_profile([x or "A" for x in st.session_state.answers])
+    label, a, b = score_profile([x or "A" for x in st.session_state.answers])  # default blanks to A
     who = (st.session_state.get("name") or "You").strip()
 
     st.success(f"**{who} = {label}**  ·  A: {a}  B: {b}")
@@ -243,5 +215,3 @@ else:
 # ---------- Footer ----------
 st.markdown("---")
 st.caption("Designed by Fiona Leong • Marketing & Data Analytics • Streamlit Web App 2025")
-
-
