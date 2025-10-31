@@ -112,7 +112,6 @@ def share_text(name, label, a, b):
     """).strip()
 
 # ---------- Hero header (inserted BEFORE state/UI) ----------
-st.markdown("### ✨ Supersocial Mini-Quiz")
 st.markdown("# Creativity ↔ Analytics Quiz")
 st.write(INTRO)
 st.markdown('<div class="hr"></div>', unsafe_allow_html=True)
@@ -198,4 +197,6 @@ else:
 
 # ---------- Footer ----------
 st.markdown("---")
-st.caption("Made by Fiona Leong · Supersocial · Built with Streamlit • v1.0")
+st.caption("Designed by Fiona Leong • Marketing & Data Analytics • Streamlit Web App 2025")
+
+
