@@ -112,7 +112,7 @@ def share_text(name, label, a, b):
     """).strip()
 
 # ---------- Hero header (inserted BEFORE state/UI) ----------
-st.markdown("# Creativity ↔ Analytics Quiz")
+st.markdown('<h1 style="color:#007BFF;">Creativity ↔ Analytics Quiz</h1>', unsafe_allow_html=True)
 st.write(INTRO)
 st.markdown('<div class="hr"></div>', unsafe_allow_html=True)
 
