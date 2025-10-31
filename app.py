@@ -147,7 +147,20 @@ if "done" not in st.session_state:
     st.session_state.done = False
 
 # ---------- Progress (single instance, placed under hero) ----------
-st.progress(int((st.session_state.get("i", 0) / len(QUESTIONS)) * 100))
+progress_percent = int((st.session_state.get("i", 0) / len(QUESTIONS)) * 100)
+
+# Create a small "Progress" label aligned with the bar
+c1, c2 = st.columns([6, 1])
+with c1:
+    st.write("")  # spacer
+with c2:
+    st.markdown(
+    f"<p style='text-align:right; font-weight:600; color:#6c63ff;'>Progress: {progress_percent}%</p>",
+    unsafe_allow_html=True,
+)
+
+st.progress(progress_percent)
+
 
 # ---------- UI flow ----------
 total = len(QUESTIONS)
