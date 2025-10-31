@@ -21,17 +21,49 @@ RESULT_BLURBS = {
 
 # 10 prompts — A leans creative; B leans analytical
 QUESTIONS = [
-    ("Briefs", "A. Start with moodboards and angles", "B. Start with metrics, baseline and constraints"),
-    ("Brainstorming", "A. Diverge wildly first, sort later", "B. Define criteria first, ideate within bounds"),
-    ("New campaign", "A. Big concept that people feel", "B. Clear hypothesis you can A/B test"),
-    ("Copy choice", "A. Memorable voice that zigs", "B. Clarity + relevance from keyword data"),
-    ("Visual direction", "A. Distinctive art that sparks talk", "B. Guideline-aligned, consistent and legible"),
-    ("Prioritisation", "A. Back the idea with potential buzz", "B. Back the item with highest projected ROI"),
-    ("Ambiguity", "A. Explore possibilities", "B. Reduce uncertainty with a small test"),
-    ("Feedback", "A. Audience gut-feel matters most", "B. Quant feedback matters most"),
-    ("Iteration", "A. Keep crafting until it ‘clicks’", "B. Ship, measure, then optimize "),
-    ("Wins", "A. Talk about concept & craft", "B. Talk about lift, CAC, ROAS, CTR"),
+# 10 full questions — A leans creative; B leans analytical
+QUESTIONS = [
+    ("When starting on a new brief, what’s your instinctive first step?",
+     "A. Dive into moodboards, ideas, and possible creative angles.",
+     "B. Study metrics, baselines, and constraints before ideating."),
+    
+    ("How do you prefer to approach brainstorming?",
+     "A. Generate as many wild ideas as possible first — sorting can come later.",
+     "B. Define success criteria early and ideate within clear boundaries."),
+    
+    ("When planning a new campaign, what excites you more?",
+     "A. Crafting a big creative concept that people will emotionally connect with.",
+     "B. Building a measurable, testable hypothesis to validate performance."),
+    
+    ("When writing copy, what’s your focus?",
+     "A. Crafting a memorable voice that stands out from the crowd.",
+     "B. Ensuring clarity and keyword alignment for strong search and conversion."),
+    
+    ("When developing visual direction, what matters most to you?",
+     "A. Striking originality and designs that spark conversation.",
+     "B. Visual consistency that aligns tightly with brand guidelines."),
+    
+    ("When prioritizing ideas, which one are you more likely to champion?",
+     "A. The bold idea with the potential to create buzz and attention.",
+     "B. The data-backed initiative with the clearest ROI potential."),
+    
+    ("How do you typically handle ambiguity or open-ended projects?",
+     "A. Explore and experiment — inspiration often comes through discovery.",
+     "B. Reduce uncertainty quickly by testing or analyzing data."),
+    
+    ("When gathering feedback, what’s your preferred source?",
+     "A. Gut feel and reactions from your audience or peers.",
+     "B. Quantitative metrics, survey data, or conversion results."),
+    
+    ("How do you prefer to iterate on work?",
+     "A. Keep refining until it ‘feels right’ creatively.",
+     "B. Ship quickly, measure performance, and optimize from results."),
+    
+    ("When celebrating a successful project, what do you tend to highlight?",
+     "A. The creative idea, storytelling, and emotional impact.",
+     "B. The measurable gains — engagement, ROI, or efficiency metrics."),
 ]
+
 
 # --- Helpers ---
 def score_profile(answers):
