@@ -47,10 +47,29 @@ div.stButton > button { border-radius: 12px; font-weight: 600; padding: .6rem 1r
   border-radius: 999px;
   background: linear-gradient(90deg, #007BFF 0%, #8A2BE2 100%) !important;
 }
+
 /* Empty track softer */
-[data-baseweb="progress-bar"] > div:first-child { background-color: #f2efff !important; }
+[data-baseweb="progress-bar"] > div:first-child {
+  background-color: #f2efff !important;
+}
+
+/* Fade animation for Progress label */
+@keyframes fadeInOut {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
+
+.progress-label {
+  text-align: right;
+  font-weight: 600;
+  color: #6c63ff;
+  animation: fadeInOut 2s ease-in-out infinite;
+}
+
 </style>
 """, unsafe_allow_html=True)
+
 
 # ---------- Content ----------
 TITLE = "Creativity ↔ Analytics Quiz"
