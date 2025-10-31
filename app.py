@@ -23,7 +23,7 @@ st.markdown("""
 h1 { letter-spacing: .2px; }
 
 /* Soft divider */
-.hr { height: 8px; border: 0; border-radius: 999px; background: #e9e4ff; margin: 12px 0 24px; }
+.hr { height: 8px; border: 0; border-radius: 999px; background: #007BFF; margin: 12px 0 24px; }
 
 /* Radio group as soft card */
 div.row-widget.stRadio > div {
