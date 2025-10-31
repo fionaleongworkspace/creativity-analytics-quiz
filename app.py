@@ -4,6 +4,43 @@ from datetime import datetime
 import textwrap
 
 st.set_page_config(page_title="Creativity ↔ Analytics Quiz", page_icon="✨", layout="centered")
+# --- Visual polish pack ---
+st.markdown("""
+<style>
+/* Page background gradient for depth */
+.stApp {background: linear-gradient(180deg, #ffffff 0%, #faf8ff 60%, #ffffff 100%);}
+
+/* Center column max width */
+.main .block-container {max-width: 860px; padding-top: 2.2rem; padding-bottom: 4rem;}
+
+/* Hero title weight & tracking */
+h1 {letter-spacing: .2px;}
+
+/* Subtle divider */
+.hr {height: 8px; border: 0; border-radius: 999px; background: #e9e4ff; margin: 12px 0 24px;}
+
+/* Radio group as soft card */
+div.row-widget.stRadio > div {
+  background: #fff; border: 1px solid #ECE9FF; border-radius: 16px;
+  padding: 14px 16px; box-shadow: 0 6px 18px rgba(122,61,228,.06);
+}
+
+/* Radio labels spacing */
+label[data-baseweb="radio"] > div:nth-child(2) { line-height: 1.35; }
+
+/* Buttons: rounded + semi-bold */
+div.stButton > button { border-radius: 12px; font-weight: 600; padding: .6rem 1rem; }
+
+/* Disabled button visibility */
+button[kind="secondary"] {opacity: .7}
+
+/* Progress bar thinner */
+[data-baseweb="progress-bar"] div[role="progressbar"] { height: 6px; border-radius: 999px; }
+</style>
+""", unsafe_allow_html=True)
+
+# Optional banner/logo (upload 'logo.png' or 'banner.jpg' to repo root)
+# st.image("banner.jpg", use_column_width=True)
 
 TITLE = "Creativity ↔ Analytics Quiz"
 INTRO = "Answer 10 quick A/B choices. There’s no “right” answer — we’re mapping your default problem-solving style."
