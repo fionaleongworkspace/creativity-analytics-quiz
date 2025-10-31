@@ -1,23 +1,29 @@
-# app.py — Creativity ↔ Analytics Quiz (Streamlit, single-question flow)
+# app.py — Creativity ↔ Analytics Quiz (single-question flow, polished)
 import streamlit as st
 from datetime import datetime
 import textwrap
 
-st.set_page_config(page_title="Creativity ↔ Analytics Quiz", page_icon="✨", layout="centered")
-# --- Visual polish pack ---
+# ---------- Page setup ----------
+st.set_page_config(
+    page_title="Creativity ↔ Analytics Quiz",
+    page_icon="✨",       # replace with "logo.png" if you upload one to repo root
+    layout="centered"
+)
+
+# ---------- Visual polish (CSS) ----------
 st.markdown("""
 <style>
 /* Page background gradient for depth */
-.stApp {background: linear-gradient(180deg, #ffffff 0%, #faf8ff 60%, #ffffff 100%);}
+.stApp { background: linear-gradient(180deg, #ffffff 0%, #faf8ff 60%, #ffffff 100%); }
 
-/* Center column max width */
-.main .block-container {max-width: 860px; padding-top: 2.2rem; padding-bottom: 4rem;}
+/* Center column width & padding */
+.main .block-container { max-width: 860px; padding-top: 2.2rem; padding-bottom: 4rem; }
 
-/* Hero title weight & tracking */
-h1 {letter-spacing: .2px;}
+/* Hero title tracking */
+h1 { letter-spacing: .2px; }
 
-/* Subtle divider */
-.hr {height: 8px; border: 0; border-radius: 999px; background: #e9e4ff; margin: 12px 0 24px;}
+/* Soft divider */
+.hr { height: 8px; border: 0; border-radius: 999px; background: #e9e4ff; margin: 12px 0 24px; }
 
 /* Radio group as soft card */
 div.row-widget.stRadio > div {
@@ -25,25 +31,26 @@ div.row-widget.stRadio > div {
   padding: 14px 16px; box-shadow: 0 6px 18px rgba(122,61,228,.06);
 }
 
-/* Radio labels spacing */
+/* Radio labels readability */
 label[data-baseweb="radio"] > div:nth-child(2) { line-height: 1.35; }
 
 /* Buttons: rounded + semi-bold */
 div.stButton > button { border-radius: 12px; font-weight: 600; padding: .6rem 1rem; }
 
-/* Disabled button visibility */
-button[kind="secondary"] {opacity: .7}
-
-/* Progress bar thinner */
+/* Progress bar thinner & rounded (selector works on current Streamlit) */
 [data-baseweb="progress-bar"] div[role="progressbar"] { height: 6px; border-radius: 999px; }
 </style>
 """, unsafe_allow_html=True)
 
-# Optional banner/logo (upload 'logo.png' or 'banner.jpg' to repo root)
+# Optional banner/logo if you add a file (e.g., banner.jpg) to repo root:
 # st.image("banner.jpg", use_column_width=True)
 
+# ---------- Content ----------
 TITLE = "Creativity ↔ Analytics Quiz"
-INTRO = "Answer 10 quick A/B choices. There’s no “right” answer — we’re mapping your default problem-solving style."
+INTRO = (
+    "Answer 10 quick A/B choices. There’s no “right” answer — "
+    "we’re mapping your default problem-solving style."
+)
 
 QUESTIONS = [
     ("When starting on a new brief, what’s your instinctive first step?",
@@ -101,36 +108,42 @@ def share_text(name, label, a, b):
 
     Modern marketing needs both imagination *and* measurement — the edge is knowing when to lean which way.
 
-    Try it and comment your result: {st.query_params.get("utm_source", "LinkedIn")}
+    Try it and comment your result.
     """).strip()
 
-# --- State init ---
+# ---------- Hero header (inserted BEFORE state/UI) ----------
+st.markdown("### ✨ Supersocial Mini-Quiz")
+st.markdown("# Creativity ↔ Analytics Quiz")
+st.write(INTRO)
+st.markdown('<div class="hr"></div>', unsafe_allow_html=True)
+
+with st.expander("Optional: add your name for the result card", expanded=False):
+    default_name = st.session_state.get("name", "")
+    st.session_state["name"] = st.text_input("Name (for the result card)", value=default_name)
+
+# ---------- State init ----------
 if "i" not in st.session_state:
-    st.session_state.i = 0                # current question index
+    st.session_state.i = 0                  # current question index
 if "answers" not in st.session_state:
     st.session_state.answers = [""] * len(QUESTIONS)
 if "done" not in st.session_state:
     st.session_state.done = False
-if "name" not in st.session_state:
-    st.session_state.name = ""
 
-# --- UI ---
-st.title(TITLE)
-st.write(INTRO)
-
-with st.expander("Optional: add your name for the result card", expanded=False):
-    st.session_state.name = st.text_input("Name (for the result card)", value=st.session_state.name)
-
+# ---------- UI flow ----------
 total = len(QUESTIONS)
 i = st.session_state.i
+
+# Progress bar
 st.progress(int((i if not st.session_state.done else total) / total * 100))
 
 if not st.session_state.done:
+    # ----- Question card -----
     q, A_text, B_text = QUESTIONS[i]
-    st.markdown(f"### {i+1}. {q}")
+    st.markdown(f"## {i+1}. {q}")
 
-    # existing choice (if any)
+    # Previously chosen answer (if any)
     current = st.session_state.answers[i] or None
+
     choice = st.radio(
         "Pick one:",
         options=["A", "B"],
@@ -140,25 +153,27 @@ if not st.session_state.done:
     )
     st.session_state.answers[i] = choice
 
-    cols = st.columns([1,1,1])
-    with cols[0]:
+    # Navigation buttons
+    c1, c2, c3 = st.columns([1,1,1])
+    with c1:
         if st.button("⬅ Back", disabled=(i == 0)):
             st.session_state.i -= 1
             st.stop()
-    with cols[1]:
+    with c2:
         if st.button("Clear"):
             st.session_state.answers[i] = ""
             st.rerun()
-    with cols[2]:
+    with c3:
         if i < total - 1:
             st.button("Next ➡", on_click=lambda: st.session_state.update(i=i+1))
         else:
-            # last question → finish
             st.button("See my result", on_click=lambda: st.session_state.update(done=True))
 else:
-    # Results page
-    label, a, b = score_profile([x or "A" for x in st.session_state.answers])  # default blanks to A
-    who = (st.session_state.name or "You").strip()
+    # ----- Results page -----
+    # default any blanks to "A" to avoid None issues (or change to strict if you prefer)
+    label, a, b = score_profile([x or "A" for x in st.session_state.answers])
+    who = (st.session_state.get("name") or "You").strip()
+
     st.success(f"**{who} = {label}**  ·  A: {a}  B: {b}")
     st.write(RESULT_BLURBS[label])
 
@@ -168,10 +183,10 @@ else:
     st.caption("Tip: Balanced teams mix creative ignition with analytical acceleration.")
 
     st.markdown("### Share this on LinkedIn")
-    st.code(share_text(st.session_state.name, label, a, b), language="markdown")
+    st.code(share_text(st.session_state.get("name", ""), label, a, b), language="markdown")
 
     ts = datetime.utcnow().strftime("%Y-%m-%d_%H%M%S")
-    csv = f"name,profile,A_count,B_count,timestamp_utc\n{(st.session_state.name or 'Anonymous')},{label},{a},{b},{ts}\n"
+    csv = f"name,profile,A_count,B_count,timestamp_utc\n{(st.session_state.get('name') or 'Anonymous')},{label},{a},{b},{ts}\n"
     st.download_button("Download my result (.csv)", data=csv, file_name=f"quiz_result_{ts}.csv", mime="text/csv")
 
     st.markdown("---")
@@ -181,4 +196,6 @@ else:
         st.session_state.done = False
         st.rerun()
 
-st.caption("Built with Streamlit • v1.0")
+# ---------- Footer ----------
+st.markdown("---")
+st.caption("Made by Fiona Leong · Supersocial · Built with Streamlit • v1.0")
