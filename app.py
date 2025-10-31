@@ -23,7 +23,12 @@ st.markdown("""
 h1 { letter-spacing: .2px; }
 
 /* Soft divider */
-.hr { height: 8px; border: 0; border-radius: 999px; background: #007BFF; margin: 12px 0 24px; }
+.hr {
+  height: 8px; border: 0; border-radius: 999px;
+  background: linear-gradient(90deg, #007BFF 0%, #8A2BE2 100%);
+  margin: 12px 0 24px;
+}
+
 
 /* Radio group as soft card */
 div.row-widget.stRadio > div {
@@ -112,7 +117,18 @@ def share_text(name, label, a, b):
     """).strip()
 
 # ---------- Hero header (inserted BEFORE state/UI) ----------
-st.markdown('<h1 style="color:#007BFF;">Creativity ↔ Analytics Quiz</h1>', unsafe_allow_html=True)
+st.markdown("""
+<h1 style="
+  font-weight: 800;
+  background: linear-gradient(90deg, #007BFF 0%, #8A2BE2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  margin-bottom: 0.5em;">
+  Creativity ↔ Analytics Quiz
+</h1>
+""", unsafe_allow_html=True)
+
 st.write(INTRO)
 st.markdown('<div class="hr"></div>', unsafe_allow_html=True)
 
