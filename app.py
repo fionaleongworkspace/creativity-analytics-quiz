@@ -43,7 +43,16 @@ label[data-baseweb="radio"] > div:nth-child(2) { line-height: 1.35; }
 div.stButton > button { border-radius: 12px; font-weight: 600; padding: .6rem 1rem; }
 
 /* Progress bar thinner & rounded (selector works on current Streamlit) */
-[data-baseweb="progress-bar"] div[role="progressbar"] { height: 6px; border-radius: 999px; }
+/* Progress bar: thin, rounded, gradient fill */
+[data-baseweb="progress-bar"] div[role="progressbar"] {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #007BFF 0%, #8A2BE2 100%) !important;
+}
+[data-baseweb="progress-bar"] > div:first-child {
+  background-color: #f2efff !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
