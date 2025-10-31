@@ -158,6 +158,26 @@ total = len(QUESTIONS)
 i = st.session_state.i
 
 # Progress bar
+# ---------- Hero header ----------
+st.markdown("""
+<h1 style="
+  font-weight: 800;
+  background: linear-gradient(90deg, #007BFF 0%, #8A2BE2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  margin-bottom: 0.5em;">
+  Creativity ↔ Analytics Quiz
+</h1>
+""", unsafe_allow_html=True)
+st.write(INTRO)
+st.markdown('<div class="hr"></div>', unsafe_allow_html=True)
+
+# ⬇️ Add this line here
+st.progress(int((st.session_state.get("i", 0) / len(QUESTIONS)) * 100))
+
+with st.expander("Optional: add your name for the result card", expanded=False):
+
 st.progress(int((i if not st.session_state.done else total) / total * 100))
 
 if not st.session_state.done:
