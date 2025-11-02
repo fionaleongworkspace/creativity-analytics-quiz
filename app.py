@@ -111,8 +111,8 @@ QUESTIONS = [
      "B. The measurable gains — engagement, ROI, or efficiency metrics."),
 ]
 
-RESULT_BLURBS = {
-    PROFILES = {
+# ---------- Profiles ----------
+PROFILES = {
     "Creative Maven": {
         "headline": "You lead with heart, not spreadsheets.",
         "desc": (
@@ -144,7 +144,7 @@ RESULT_BLURBS = {
         ),
         "superpower": "Translating creativity into strategy (and back again).",
         "watchout": "Doing too much yourself — bridges need both sides to stand strong.",
-            "share_hook": "Tag a teammate who leans more creative or more data — see if you make the perfect pair."
+        "share_hook": "Tag a teammate who leans more creative or more data — see if you make the perfect pair."
     }
 }
 
