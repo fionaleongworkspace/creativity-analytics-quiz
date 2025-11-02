@@ -268,29 +268,37 @@ with c2:
 
 st.info(profile["share_hook"])
 
+st.markdown("### Your Result Summary")
+st.write(f"- Profile: **{label}**")
+st.write(f"- Tally: **{a}×A / {b}×B**")
+st.caption("Tip: Balanced teams mix creative ignition with analytical acceleration.")
 
-    st.markdown("### Your Result Summary")
-    st.write(f"- Profile: **{label}**")
-    st.write(f"- Tally: **{a}×A / {b}×B**")
-    st.caption("Tip: Balanced teams mix creative ignition with analytical acceleration.")
-
-    st.markdown("### Share this on LinkedIn")
+st.markdown("### Share this on LinkedIn")
 st.markdown(
-    "💬 *Post your result with **#CreativityAnalyticsQuiz** — let’s see which side LinkedIn leans toward!*"
+    "💡 *Post your result with **#CreativityAnalyticsQuiz** — let’s see which side LinkedIn leans toward!*"
 )
 
-    st.code(share_text(st.session_state.get("name", ""), label, a, b), language="markdown")
+st.code(share_text(st.session_state.get("name", ""), label, a, b), language="markdown")
 
-    ts = datetime.utcnow().strftime("%Y-%m-%d_%H%M%S")
-    csv = f"name,profile,A_count,B_count,timestamp_utc\n{(st.session_state.get('name') or 'Anonymous')},{label},{a},{b},{ts}\n"
-    st.download_button("Download my result (.csv)", data=csv, file_name=f"quiz_result_{ts}.csv", mime="text/csv")
+# Download result as CSV
+ts = datetime.utcnow().strftime("%Y-%m-%d_%H%M%S")
+csv = (
+    f"name,profile,A_count,B_count,timestamp_utc\n"
+    f"{(st.session_state.get('name') or 'Anonymous')},{label},{a},{b},{ts}\n"
+)
+st.download_button(
+    "Download my result (.csv)",
+    data=csv,
+    file_name=f"quiz_result_{ts}.csv",
+    mime="text/csv"
+)
 
-    st.markdown("---")
-    if st.button("Restart quiz"):
-        st.session_state.i = 0
-        st.session_state.answers = [""] * len(QUESTIONS)
-        st.session_state.done = False
-        st.rerun()
+st.markdown("---")
+if st.button("Restart quiz"):
+    st.session_state.i = 0
+    st.session_state.answers = [""] * len(QUESTIONS)
+    st.session_state.done = False
+    st.rerun()
 
 # ---------- Footer ----------
 st.markdown("---")
