@@ -75,7 +75,7 @@ div.stButton > button { border-radius: 12px; font-weight: 600; padding: .6rem 1r
 TITLE = "Creativity ↔ Analytics Quiz"
 INTRO = (
     "Answer 10 quick A/B choices. There’s no “right” answer — "
-    "This is just to map out your default problem-solving style. Have fun!"
+    "this is just to find out your default problem-solving style."
 )
 
 QUESTIONS = [
