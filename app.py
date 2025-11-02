@@ -112,9 +112,40 @@ QUESTIONS = [
 ]
 
 RESULT_BLURBS = {
-    "Creative Maven": "You lead with imagination, concepting, brand story and distinctive ideas, then bring data in to refine.",
-    "Analytical Ace": "You lead with structure, evidence and measurement, turning ambiguity into clear, testable action.",
-    "Hybrid Synthesizer": "You blend bold ideas with rigorous evaluation, switching gears based on context. Best of both worlds."
+    PROFILES = {
+    "Creative Maven": {
+        "headline": "You lead with heart, not spreadsheets.",
+        "desc": (
+            "Ideas find you before you find them. You think in stories, colors, and possibilities—"
+            "then shape the logic later. You bring energy, spark, and human connection to every "
+            "project, often reminding the team that *data doesn’t dream — people do.*"
+        ),
+        "superpower": "Turning emotion into movement.",
+        "watchout": "Getting lost in possibilities—bring the numbers in before you pitch.",
+        "share_hook": "Tag your favorite data-driven teammate — they probably balance you out!"
+    },
+    "Analytical Ace": {
+        "headline": "You turn the chaos of marketing into measurable momentum.",
+        "desc": (
+            "You’re the one who brings structure to the storm. Hypotheses, baselines, and dashboards "
+            "are your native language — but you’re not cold; you just believe clarity is kindness. "
+            "You make creativity accountable, and ideas scalable."
+        ),
+        "superpower": "Seeing patterns where others see noise.",
+        "watchout": "Over-optimizing — sometimes, magic can’t be A/B tested.",
+        "share_hook": "Tag a creative wild card who keeps your charts interesting!"
+    },
+    "Hybrid Synthesizer": {
+        "headline": "You switch between art and algorithm like second nature.",
+        "desc": (
+            "You’re both dreamer and doer — equally comfortable pitching a vision or debugging a metric. "
+            "You connect the left and right brains of marketing, blending story with science. "
+            "When others pick sides, you pick balance — and that’s your edge."
+        ),
+        "superpower": "Translating creativity into strategy (and back again).",
+        "watchout": "Doing too much yourself — bridges need both sides to stand strong.",
+        "share_hook": "Tag a teammate who leans more creative or more dat_
+
 }
 
 def score_profile(answers):
@@ -223,7 +254,19 @@ else:
     who = (st.session_state.get("name") or "You").strip()
 
     st.success(f"**{who} = {label}**  ·  A: {a}  B: {b}")
-    st.write(RESULT_BLURBS[label])
+    profile = PROFILES[label]
+
+st.markdown(f"**{profile['headline']}**")
+st.write(profile["desc"])
+
+c1, c2 = st.columns(2)
+with c1:
+    st.markdown(f"**Superpower:** {profile['superpower']}")
+with c2:
+    st.markdown(f"**Watch out for:** {profile['watchout']}")
+
+st.info(profile["share_hook"])
+
 
     st.markdown("### Your Result Summary")
     st.write(f"- Profile: **{label}**")
@@ -231,6 +274,10 @@ else:
     st.caption("Tip: Balanced teams mix creative ignition with analytical acceleration.")
 
     st.markdown("### Share this on LinkedIn")
+st.markdown(
+    "💬 *Post your result with **#CreativityAnalyticsQuiz** — let’s see which side LinkedIn leans toward!*"
+)
+
     st.code(share_text(st.session_state.get("name", ""), label, a, b), language="markdown")
 
     ts = datetime.utcnow().strftime("%Y-%m-%d_%H%M%S")
