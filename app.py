@@ -66,10 +66,8 @@ div.stButton > button { border-radius: 12px; font-weight: 600; padding: .6rem 1r
   color: #6c63ff;
   animation: fadeInOut 2s ease-in-out infinite;
 }
-
 </style>
 """, unsafe_allow_html=True)
-
 
 # ---------- Content ----------
 TITLE = "Creativity ↔ Analytics Quiz"
@@ -148,7 +146,6 @@ PROFILES = {
     }
 }
 
-
 def score_profile(answers):
     a = answers.count("A")
     b = answers.count("B")
@@ -191,7 +188,7 @@ with st.expander("Optional: add your name for the result card", expanded=False):
 
 # ---------- State init ----------
 if "i" not in st.session_state:
-    st.session_state.i = 0                  # current question index
+    st.session_state.i = 0
 if "answers" not in st.session_state:
     st.session_state.answers = [""] * len(QUESTIONS)
 if "done" not in st.session_state:
@@ -199,19 +196,15 @@ if "done" not in st.session_state:
 
 # ---------- Progress (single instance, placed under hero) ----------
 progress_percent = int((st.session_state.get("i", 0) / len(QUESTIONS)) * 100)
-
-# Create a small "Progress" label aligned with the bar
-c1, c2 = st.columns([6, 1])
-with c1:
+pcol1, pcol2 = st.columns([6, 1])
+with pcol1:
     st.write("")  # spacer
-with c2:
+with pcol2:
     st.markdown(
-    f"<p style='text-align:right; font-weight:600; color:#6c63ff;'>Progress: {progress_percent}%</p>",
-    unsafe_allow_html=True,
-)
-
+        f"<p class='progress-label'>Progress: {progress_percent}%</p>",
+        unsafe_allow_html=True,
+    )
 st.progress(progress_percent)
-
 
 # ---------- UI flow ----------
 total = len(QUESTIONS)
@@ -222,9 +215,7 @@ if not st.session_state.done:
     q, A_text, B_text = QUESTIONS[i]
     st.markdown(f"## {i+1}. {q}")
 
-    # Previously chosen answer (if any)
     current = st.session_state.answers[i] or None
-
     choice = st.radio(
         "Pick one:",
         options=["A", "B"],
@@ -234,8 +225,7 @@ if not st.session_state.done:
     )
     st.session_state.answers[i] = choice
 
-    # Navigation buttons
-    c1, c2, c3 = st.columns([1,1,1])
+    c1, c2, c3 = st.columns([1, 1, 1])
     with c1:
         if st.button("⬅ Back", disabled=(i == 0)):
             st.session_state.i -= 1
@@ -249,56 +239,57 @@ if not st.session_state.done:
             st.button("Next ➡", on_click=lambda: st.session_state.update(i=i+1))
         else:
             st.button("See my result", on_click=lambda: st.session_state.update(done=True))
+
 else:
     # ----- Results page -----
     label, a, b = score_profile([x or "A" for x in st.session_state.answers])  # default blanks to A
     who = (st.session_state.get("name") or "You").strip()
 
-    st.success(f"**{who} = {label}**  ·  A: {a}  B: {b}")
+    st.success(f"🎯 **{who} = {label}**  ·  A: {a}  B: {b}")
     profile = PROFILES[label]
 
-st.markdown(f"**{profile['headline']}**")
-st.write(profile["desc"])
+    st.markdown(f"**{profile['headline']}**")
+    st.write(profile["desc"])
 
-c1, c2 = st.columns(2)
-with c1:
-    st.markdown(f"**Superpower:** {profile['superpower']}")
-with c2:
-    st.markdown(f"**Watch out for:** {profile['watchout']}")
+    rc1, rc2 = st.columns(2)
+    with rc1:
+        st.markdown(f"**Superpower:** {profile['superpower']}")
+    with rc2:
+        st.markdown(f"**Watch out for:** {profile['watchout']}")
 
-st.info(profile["share_hook"])
+    st.info(profile["share_hook"])
 
-st.markdown("### Your Result Summary")
-st.write(f"- Profile: **{label}**")
-st.write(f"- Tally: **{a}×A / {b}×B**")
-st.caption("Tip: Balanced teams mix creative ignition with analytical acceleration.")
+    st.markdown("### Your Result Summary")
+    st.write(f"- Profile: **{label}**")
+    st.write(f"- Tally: **{a}×A / {b}×B**")
+    st.caption("Tip: Balanced teams mix creative ignition with analytical acceleration.")
 
-st.markdown("### Share this on LinkedIn")
-st.markdown(
-    "💡 *Post your result with **#CreativityAnalyticsQuiz** — let’s see which side LinkedIn leans toward!*"
-)
+    st.markdown("### Share this on LinkedIn")
+    st.markdown(
+        "💡 *Post your result with **#CreativityAnalyticsQuiz** — let’s see which side LinkedIn leans toward!*"
+    )
 
-st.code(share_text(st.session_state.get("name", ""), label, a, b), language="markdown")
+    st.code(share_text(st.session_state.get("name", ""), label, a, b), language="markdown")
 
-# Download result as CSV
-ts = datetime.utcnow().strftime("%Y-%m-%d_%H%M%S")
-csv = (
-    f"name,profile,A_count,B_count,timestamp_utc\n"
-    f"{(st.session_state.get('name') or 'Anonymous')},{label},{a},{b},{ts}\n"
-)
-st.download_button(
-    "Download my result (.csv)",
-    data=csv,
-    file_name=f"quiz_result_{ts}.csv",
-    mime="text/csv"
-)
+    # Download result as CSV
+    ts = datetime.utcnow().strftime("%Y-%m-%d_%H%M%S")
+    csv = (
+        f"name,profile,A_count,B_count,timestamp_utc\n"
+        f"{(st.session_state.get('name') or 'Anonymous')},{label},{a},{b},{ts}\n"
+    )
+    st.download_button(
+        "Download my result (.csv)",
+        data=csv,
+        file_name=f"quiz_result_{ts}.csv",
+        mime="text/csv"
+    )
 
-st.markdown("---")
-if st.button("Restart quiz"):
-    st.session_state.i = 0
-    st.session_state.answers = [""] * len(QUESTIONS)
-    st.session_state.done = False
-    st.rerun()
+    st.markdown("---")
+    if st.button("Restart quiz"):
+        st.session_state.i = 0
+        st.session_state.answers = [""] * len(QUESTIONS)
+        st.session_state.done = False
+        st.rerun()
 
 # ---------- Footer ----------
 st.markdown("---")
